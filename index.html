@@ -53,20 +53,13 @@
             z-index: 50;
         }
 
+        /* 로고: 보라색 배경 및 체크표시 제거 */
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
             cursor: pointer;
-        }
-
-        .logo-box {
-            background-color: var(--accent-blue);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
+            color: var(--text-main);
         }
 
         .nav-buttons {
@@ -427,7 +420,7 @@
     <!-- 상단 헤더 -->
     <header>
         <div class="logo" onclick="showPage('homePage')">
-            <span class="logo-box">✓ NCEDL</span> LIST
+            NCEDL LIST
         </div>
         <div class="nav-buttons">
             <a href="#" class="btn-sm" id="discord-link">Discord</a>
@@ -439,7 +432,7 @@
     <div id="homePage" class="page active">
         <section class="hero">
             <h1>NCEDL Forum</h1>
-            <p>Ranking of all verified level in Geometry Dash</p>
+            <p>All Verified Extreme Demon difficulty Nine Circles level list</p>
 
             <button class="main-btn" onclick="showPage('listPage')">Explore the List</button>
 
@@ -457,12 +450,7 @@
             <div class="card">
                 <h2>Recent Changes in List</h2>
                 <ul class="change-list">
-                    <li>True Innards has been raised from #64 to #63.</li>
-                    <li>Maniacal Chains has been placed on #53.</li>
-                    <li>far apart has been placed on #78.</li>
-                    <li>ace has been placed on #62.</li>
-                    <li>Bonus Level has been placed on #82.</li>
-                    <li>The Golden unnerfed has been placed on #73.</li>
+                    <li>No recent changes.</li>
                 </ul>
             </div>
 
