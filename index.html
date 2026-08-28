@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Demon List</title>
+    <title>NCEDL - Non-Official Demon List</title>
     <style>
         :root {
             --bg-color: #0b0d12;
-            --card-bg: #161923;
+            --card-bg: rgba(22, 25, 35, 0.7);
             --card-hover: #1e2230;
             --modal-bg: #12141d;
             --border-color: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
             --text-sub: #9ca3af;
             --rank-red: #ef4444;
+            --accent-blue: #4f46e5;
+            --accent-blue-hover: #6366f1;
+            --button-bg: #1f2937;
+            --button-hover: #374151;
             --input-bg: #131722;
         }
 
@@ -28,9 +32,11 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             background-image: 
-                radial-gradient(circle at 90% 10%, rgba(220, 38, 38, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 10% 90%, rgba(79, 70, 229, 0.08) 0%, transparent 40%);
+                radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.1) 0%, transparent 40%);
         }
 
         /* 상단 헤더 */
@@ -53,10 +59,11 @@
             gap: 8px;
             font-weight: bold;
             font-size: 1.1rem;
+            cursor: pointer;
         }
 
         .logo-box {
-            background-color: #4f46e5;
+            background-color: var(--accent-blue);
             padding: 4px 8px;
             border-radius: 4px;
             font-size: 0.8rem;
@@ -76,16 +83,125 @@
             cursor: pointer;
             font-size: 0.85rem;
             text-decoration: none;
+            transition: 0.2s;
         }
 
-        /* 메인 영역 */
-        .container {
+        .btn-sm:hover {
+            background-color: var(--button-hover);
+        }
+
+        /* 화면 전환 처리 */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+
+        /* ===================================================
+           1. 메인 화면 레이아웃
+        =================================================== */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-sub);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .main-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--accent-blue);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
+
+        .main-btn:hover {
+            background-color: var(--accent-blue-hover);
+        }
+
+        .button-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .grid-btn {
+            padding: 10px 20px;
+            background-color: var(--button-bg);
+            color: var(--text-main);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .grid-btn:hover {
+            background-color: var(--button-hover);
+        }
+
+        .content-container {
+            max-width: 800px;
+            width: 90%;
+            margin: 1rem auto 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .change-list {
+            list-style: none;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        /* ===================================================
+           2. 리스트 화면 레이아웃
+        =================================================== */
+        .list-container {
             max-width: 850px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
 
-        .title {
+        .list-title {
             text-align: center;
             font-size: 2.5rem;
             color: var(--rank-red);
@@ -93,7 +209,6 @@
             font-weight: 800;
         }
 
-        /* 검색바 */
         .search-box {
             display: flex;
             gap: 10px;
@@ -120,7 +235,6 @@
             outline: none;
         }
 
-        /* 리스트 카드 스타일 */
         .list-group {
             display: flex;
             flex-direction: column;
@@ -185,9 +299,7 @@
             color: var(--text-sub);
         }
 
-        /* ===================================================
-           상세 모달 (팝업창) 레이아웃
-        =================================================== */
+        /* 상세 정보 모달 (팝업창) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -241,11 +353,10 @@
             margin-bottom: 1rem;
         }
 
-        /* 비디오 임베드 컨테이너 */
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 비율 */
+            padding-bottom: 56.25%;
             height: 0;
             margin-bottom: 1.2rem;
             background: #000;
@@ -262,7 +373,6 @@
             border: 0;
         }
 
-        /* 레벨 서버 설명 */
         .level-description {
             text-align: center;
             font-style: italic;
@@ -272,7 +382,6 @@
             padding: 0 1rem;
         }
 
-        /* 상세 정보 그리드 레이아웃 */
         .detail-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -300,29 +409,82 @@
         .detail-value {
             color: var(--text-sub);
         }
+
+        /* 푸터 */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-sub);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--border-color);
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
 
+    <!-- 상단 헤더 -->
     <header>
-        <div class="logo">
-            <span class="logo-box">✓ ALL</span> DEMON LIST
+        <div class="logo" onclick="showPage('homePage')">
+            <span class="logo-box">✓ NCEDL</span> LIST
         </div>
         <div class="nav-buttons">
-            <a href="#" class="btn-sm">Discord</a>
-            <a href="index.html" class="btn-sm">Main Page</a>
+            <a href="#" class="btn-sm" id="discord-link">Discord</a>
+            <button class="btn-sm" onclick="showPage('listPage')">NCEDL List</button>
         </div>
     </header>
 
-    <div class="container">
-        <h1 class="title">All Demon List</h1>
+    <!-- 1. 메인 화면 (Home) -->
+    <div id="homePage" class="page active">
+        <section class="hero">
+            <h1>NCEDL Forum</h1>
+            <p>Ranking of all verified level in Geometry Dash</p>
 
-        <div class="search-box">
-            <button class="menu-btn">☰</button>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+            <button class="main-btn" onclick="showPage('listPage')">Explore the List</button>
+
+            <div class="button-grid">
+                <button class="grid-btn">Stats Viewer</button>
+                <button class="grid-btn">Time Machine</button>
+                <button class="grid-btn">Submit Records</button>
+            </div>
+            <div class="button-grid">
+                <a href="#" class="grid-btn">Discord</a>
+            </div>
+        </section>
+
+        <main class="content-container">
+            <div class="card">
+                <h2>Recent Changes in List</h2>
+                <ul class="change-list">
+                    <li>True Innards has been raised from #64 to #63.</li>
+                    <li>Maniacal Chains has been placed on #53.</li>
+                    <li>far apart has been placed on #78.</li>
+                    <li>ace has been placed on #62.</li>
+                    <li>Bonus Level has been placed on #82.</li>
+                    <li>The Golden unnerfed has been placed on #73.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Site Updates</h2>
+                <p style="color: var(--text-sub); font-size: 0.9rem;">새로운 기능 업데이트 내용이 이곳에 표시됩니다.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- 2. 리스트 화면 (Demon List) -->
+    <div id="listPage" class="page">
+        <div class="list-container">
+            <h1 class="list-title">NCEDL List</h1>
+
+            <div class="search-box">
+                <button class="menu-btn">☰</button>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+            </div>
+
+            <div class="list-group" id="listGroup"></div>
         </div>
-
-        <div class="list-group" id="listGroup"></div>
     </div>
 
     <!-- 상세 정보 모달 (팝업창) -->
@@ -332,15 +494,12 @@
             
             <h2 class="modal-title" id="mTitle">Society</h2>
             
-            <!-- 유튜브 영상 -->
             <div class="video-container">
                 <iframe id="mVideo" src="" allowfullscreen></iframe>
             </div>
 
-            <!-- 서버 내 설명 -->
             <p class="level-description" id="mDesc">// Is it guilt that keeps you awake at night... // </p>
 
-            <!-- 상세 Spec 구역 -->
             <div class="detail-grid">
                 <div class="detail-item"><span class="detail-label">Creator</span> <span class="detail-value" id="mCreator"></span></div>
                 <div class="detail-item"><span class="detail-label">Verifier</span> <span class="detail-value" id="mVerifier"></span></div>
@@ -361,17 +520,28 @@
         </div>
     </div>
 
+    <!-- 푸터 -->
+    <footer>
+        <p>© 2026 NCEDL. Developed by cheonyuchang.</p>
+        <p>cheonyuchang.github.io and NCEDL are in no way affiliated with RobTopGamesAB °</p>
+    </footer>
+
     <script>
-        // ===================================================
-        // 레벨 데이터 설정 (원하시는 내용으로 자유롭게 수정 가능)
-        // ===================================================
+        // 화면 전환 함수 (Home <-> List)
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // 레벨 데이터
         const levels = [
             {
                 name: "Society",
                 author: "Neomarbilan and more",
                 verifier: "wPopoff",
                 thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
-                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ", // 퍼가기용 embed 링크
+                videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
                 desc: "// Is it guilt that keeps you awake at night or is it someone who cant accept the truth? //",
                 id: "127323087",
                 password: "Free Copy",
@@ -424,7 +594,7 @@
             });
         }
 
-        // 모달 열기 함수 (데이터 주입)
+        // 모달 열기
         function openModal(index) {
             const level = levels[index];
             document.getElementById('mTitle').innerText = level.name;
@@ -447,10 +617,9 @@
         // 모달 닫기
         document.getElementById('closeModal').addEventListener('click', () => {
             document.getElementById('modalOverlay').classList.remove('active');
-            document.getElementById('mVideo').src = ""; // 영상 소리 끔
+            document.getElementById('mVideo').src = "";
         });
 
-        // 배경 클릭 시 닫기
         document.getElementById('modalOverlay').addEventListener('click', (e) => {
             if (e.target === document.getElementById('modalOverlay')) {
                 document.getElementById('modalOverlay').classList.remove('active');
