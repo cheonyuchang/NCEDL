@@ -522,11 +522,12 @@
             window.scrollTo(0, 0);
         }
 
-        // 레벨 데이터
+        // 레벨 데이터 (creator: 모달창 제작자 / uploader: 리스트 화면의 by 뒤에 들어갈 업로더 이름)
         const levels = [
             {
                 name: "Antartic Lights",
-                author: "Declan, SkyJax, Tolstyh, Arcturus",
+                creator: "Declan, SkyJax, Tolstyh, Arcturus",
+                uploader: "", // 나중에 이 칸에 업로더 이름을 채워넣으세요
                 verifier: "wPopoff",
                 thumb: "https://img.youtube.com/vi/Uue4ZRhVf-I/hqdefault.jpg",
                 videoUrl: "https://www.youtube.com/embed/Uue4ZRhVf-I",
@@ -542,7 +543,8 @@
             },
             {
                 name: "Sakupen Circles",
-                author: "Nick24",
+                creator: "Nick24",
+                uploader: "", // 나중에 이 칸에 업로더 이름을 채워넣으세요
                 verifier: "ad3usgmd",
                 thumb: "https://img.youtube.com/vi/AdrmZsy52EY/hqdefault.jpg",
                 videoUrl: "https://www.youtube.com/embed/AdrmZsy52EY",
@@ -558,7 +560,8 @@
             },
             {
                 name: "Ultra Paracosm",
-                author: "Renn241, Declan",
+                creator: "Renn241, Declan",
+                uploader: "", // 나중에 이 칸에 업로더 이름을 채워넣으세요
                 verifier: "Wity",
                 thumb: "https://img.youtube.com/vi/4V24spYQWuE/hqdefault.jpg",
                 videoUrl: "https://www.youtube.com/embed/4V24spYQWuE",
@@ -574,7 +577,8 @@
             },
             {
                 name: "Subsuming Vortex",
-                author: "SeptaGon7, Renn241",
+                creator: "SeptaGon7, Renn241",
+                uploader: "", // 나중에 이 칸에 업로더 이름을 채워넣으세요
                 verifier: "Cursed",
                 thumb: "https://img.youtube.com/vi/0eYG1ogJpIQ/hqdefault.jpg",
                 videoUrl: "https://www.youtube.com/embed/0eYG1ogJpIQ",
@@ -606,7 +610,7 @@
                         <img class="thumb" src="${item.thumb}" alt="${item.name}">
                         <div class="level-info">
                             <div class="level-title">${item.name}</div>
-                            <div class="level-author">by ${item.author}</div>
+                            <div class="level-author">by ${item.uploader}</div>
                         </div>
                     </div>
                 `;
@@ -620,7 +624,7 @@
             document.getElementById('mTitle').innerText = level.name;
             document.getElementById('mVideo').src = level.videoUrl;
             document.getElementById('mDesc').innerText = level.desc;
-            document.getElementById('mCreator').innerText = level.author;
+            document.getElementById('mCreator').innerText = level.creator;
             document.getElementById('mVerifier').innerText = level.verifier;
             document.getElementById('mId').innerText = level.id;
             document.getElementById('mPass').innerText = level.password;
@@ -652,7 +656,8 @@
             const query = e.target.value.toLowerCase();
             const filtered = levels.filter(item => 
                 item.name.toLowerCase().includes(query) || 
-                item.author.toLowerCase().includes(query)
+                item.creator.toLowerCase().includes(query) ||
+                item.uploader.toLowerCase().includes(query)
             );
             renderList(filtered);
         });
