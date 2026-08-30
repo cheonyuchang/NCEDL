@@ -286,7 +286,7 @@
             color: var(--text-sub);
         }
 
-        /* 상세 정보 모달 (수정 적용 영역) */
+        /* 상세 정보 모달 */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -662,7 +662,7 @@
                 uploadVersion: "2.205",
                 difficulty: "Extreme Demon",
                 rating: "Unfeatured",
-                song: "~NK~ Fracture by Rukkus (ID 433947)",
+                song: "~NK~ Fracture by Rukkus (ID 433947)"
             },
             {
                 name: "Sonic Wave Infinity",
@@ -684,7 +684,7 @@
             {
                 name: "Aerial Gleam",
                 creator: "Antares, Endlevel, Deadlox, Culuc",
-                uploader: ""EndLevel,
+                uploader: "EndLevel", /* 수정된 부분: 따옴표 중첩 및 오타 수정 */
                 verifier: "Doggie",
                 thumb: "https://img.youtube.com/vi/eyZjKtrGVYw/hqdefault.jpg",
                 videoUrl: "https://www.youtube.com/embed/eyZjKtrGVYw",
@@ -724,7 +724,7 @@
             data.forEach((item, index) => {
                 const rank = index + 1;
                 const cardHtml = `
-                    <div class="level-card" onclick="openModal(${index})">
+                    <div class="level-card" onclick="openModal(${levels.indexOf(item)})">
                         <div class="rank-number">
                             #${rank}
                             <span>#${rank}</span>
@@ -757,13 +757,13 @@
             document.getElementById('mSong').innerText = level.song;
 
             document.getElementById('modalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden'; /* 모달 오픈 시 배경 스크롤 차단 */
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             document.getElementById('modalOverlay').classList.remove('active');
-            document.getElementById('mVideo').src = "";
-            document.body.style.overflow = ''; /* 배경 스크롤 복원 */
+            document.getElementById('mVideo').src = ""; /* 모달을 닫을 때 유튜브 영상 중지 */
+            document.body.style.overflow = '';
         }
 
         document.getElementById('closeModal').addEventListener('click', closeModal);
