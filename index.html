@@ -315,7 +315,7 @@
             background: var(--modal-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            width: 90%;
+            width: 100%;
             max-width: 650px;
             padding: 2rem;
             position: relative;
@@ -332,6 +332,8 @@
             cursor: pointer;
             border: none;
             background: none;
+            box-sizing: border-box;
+            overflow: hidden;
         }
 
         .modal-title {
@@ -372,7 +374,7 @@
 
         .detail-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 12px 20px;
             font-size: 0.88rem;
             border-top: 1px solid var(--border-color);
@@ -384,6 +386,7 @@
             display: flex;
             justify-content: center;
             gap: 6px;
+            min-width: 0;
         }
 
         .detail-item.full-width {
@@ -397,6 +400,8 @@
 
         .detail-value {
             color: var(--text-sub);
+            word-break: break-word;
+            overflow-wrap: anywhere;
         }
 
         /* 기록 등재 정보 및 테이블 스타일 */
@@ -475,6 +480,15 @@
             font-size: 0.75rem;
             border-top: 1px solid var(--border-color);
             line-height: 1.5;
+        }
+        @media (max-width: 600px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .detail-item.full-width {
+                grid-column: span 1;
+            }
         }
     </style>
 </head>
