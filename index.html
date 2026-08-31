@@ -377,6 +377,7 @@
             font-size: 0.88rem;
             border-top: 1px solid var(--border-color);
             padding-top: 1.2rem;
+            margin-bottom: 2rem;
         }
 
         .detail-item {
@@ -396,6 +397,74 @@
 
         .detail-value {
             color: var(--text-sub);
+        }
+
+        /* 기록 등재 정보 및 테이블 스타일 */
+        .records-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        .records-summary {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .records-summary strong {
+            color: var(--text-main);
+        }
+
+        .records-summary .notice {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            color: #8b949e;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .records-table th {
+            background-color: #1a202c;
+            color: #38bdf8;
+            padding: 10px;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .records-table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+        }
+
+        .records-table tr:nth-child(even) td {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .records-table tr:hover td {
+            background-color: var(--card-hover);
+        }
+
+        .no-records {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-sub);
+            font-size: 0.85rem;
         }
 
         footer {
@@ -495,6 +564,29 @@
                 
                 <div class="detail-item full-width"><span class="detail-label">Song</span> <span class="detail-value" id="mSong"></span></div>
             </div>
+
+            <!-- 기록 목록 섹션 추가 -->
+            <div class="records-section">
+                <div class="records-summary" id="recordsSummary">
+                    <!-- 요약 정보가 JS로 동적 삽입됩니다 -->
+                </div>
+
+                <div class="table-container">
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>유저</th>
+                                <th>퍼센트</th>
+                                <th>게임 버전</th>
+                                <th>사용 기기 및 FPS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recordsTableBody">
+                            <!-- 기록들이 JS로 동적 삽입됩니다 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -510,6 +602,7 @@
             window.scrollTo(0, 0);
         }
 
+        // levels 데이터 배열 내부에 records (유저 기록 목록) 항목 추가
         const levels = [
             {
                 name: "Antartic Lights",
@@ -526,7 +619,15 @@
                 uploadVersion: "2.208",
                 difficulty: "Extreme Demon",
                 rating: "Featured",
-                song: "~NK~ Fear Me (NGADm Entry) by Rukkus (ID 428157)"
+                song: "~NK~ Fear Me (NGADm Entry) by Rukkus (ID 428157)",
+                minPercent: 46,
+                records: [
+                    { user: "PoCle", percent: "100%", version: "2.207", deviceFps: "240+ FPS*" },
+                    { user: "이나리", percent: "100%", version: "2.207", deviceFps: "CBF" },
+                    { user: "Seturan", percent: "100%", version: "2.207", deviceFps: "CBF" },
+                    { user: "일태", percent: "100%", version: "2.208+", deviceFps: "CBF" },
+                    { user: "강진화", percent: "47%", version: "2.208+", deviceFps: "CBF" }
+                ]
             },
             {
                 name: "Sakupen Circles",
@@ -543,7 +644,9 @@
                 uploadVersion: "1.9",
                 difficulty: "Unrated",
                 rating: "-",
-                song: "Iron God: Sakupen Hell Yes RMX by mr-jazzman (ID 360804)"
+                song: "Iron God: Sakupen Hell Yes RMX by mr-jazzman (ID 360804)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Ultra Paracosm",
@@ -560,7 +663,11 @@
                 uploadVersion: "2.208",
                 difficulty: "Extreme Demon",
                 rating: "Featured",
-                song: "~NK~ 'truthOrDare' featJrounds bu Rukkus (ID 469490)"
+                song: "~NK~ 'truthOrDare' featJrounds bu Rukkus (ID 469490)",
+                minPercent: 50,
+                records: [
+                    { user: "UserA", percent: "100%", version: "2.208", deviceFps: "360 FPS" }
+                ]
             },
             {
                 name: "Subsuming Vortex",
@@ -577,7 +684,9 @@
                 uploadVersion: "2.207",
                 difficulty: "Extreme Demon",
                 rating: "Featured",
-                song: "NK - Sine Wavs by Rukkus (ID 512976)"
+                song: "NK - Sine Wavs by Rukkus (ID 512976)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Defeated Circles",
@@ -594,7 +703,9 @@
                 uploadVersion: "2.207",
                 difficulty: "Extreme Demon",
                 rating: "Featured",
-                song: "When You Find Me by plenka (NONG)"
+                song: "When You Find Me by plenka (NONG)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Sakupen Circles",
@@ -611,7 +722,9 @@
                 uploadVersion: "2.11",
                 difficulty: "Extreme Demon",
                 rating: "Unfeatured",
-                song: "Iron God: Sakupen Hell Yes RMX by mr-jazzman (ID 360804)"
+                song: "Iron God: Sakupen Hell Yes RMX by mr-jazzman (ID 360804)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "The Hallucination",
@@ -628,7 +741,9 @@
                 uploadVersion: "2.113",
                 difficulty: "Extreme Demon",
                 rating: "Featured",
-                song: "The Hallucination by TheColdSpirit (ID 568369)"
+                song: "The Hallucination by TheColdSpirit (ID 568369)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Solar Flare",
@@ -645,7 +760,9 @@
                 uploadVersion: "2.113",
                 difficulty: "Extreme Demon",
                 rating: "Epic",
-                song: "(J) - Solar Wind by Jumper (ID 493898)"
+                song: "(J) - Solar Wind by Jumper (ID 493898)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Fracture",
@@ -662,7 +779,9 @@
                 uploadVersion: "2.205",
                 difficulty: "Extreme Demon",
                 rating: "Unfeatured",
-                song: "~NK~ Fracture by Rukkus (ID 433947)"
+                song: "~NK~ Fracture by Rukkus (ID 433947)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Sonic Wave Infinity",
@@ -679,12 +798,14 @@
                 uploadVersion: "2.113",
                 difficulty: "Extreme Demon",
                 rating: "Featured",
-                song: "F-777 - Sonic Blaster by F-777 (ID 574484)"
+                song: "F-777 - Sonic Blaster by F-777 (ID 574484)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Aerial Gleam",
                 creator: "Antares, Endlevel, Deadlox, Culuc",
-                uploader: "EndLevel", /* 수정된 부분: 따옴표 중첩 및 오타 수정 */
+                uploader: "EndLevel",
                 verifier: "Doggie",
                 thumb: "https://img.youtube.com/vi/eyZjKtrGVYw/hqdefault.jpg",
                 videoUrl: "https://www.youtube.com/embed/eyZjKtrGVYw",
@@ -696,7 +817,9 @@
                 uploadVersion: "2.113",
                 difficulty: "Extreme Demon",
                 rating: "Featured",
-                song: "I Cry (Rukkus Remix) by Flo Rida (NONG)"
+                song: "I Cry (Rukkus Remix) by Flo Rida (NONG)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Crackhead Circles",
@@ -713,7 +836,9 @@
                 uploadVersion: "2.113",
                 difficulty: "Extreme Demon",
                 rating: "Featured",
-                song: "drink my pssyou nasty slut yeah yeah by Lil Darkie (NONG)"
+                song: "drink my pssyou nasty slut yeah yeah by Lil Darkie (NONG)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Ringy Paracosm",
@@ -730,7 +855,9 @@
                 uploadVersion: "2.113",
                 difficulty: "Extreme Demon",
                 rating: "Unfeatured",
-                song: "~NK~ 'Requiem At Dusk' by Rukkus (ID 404594)"
+                song: "~NK~ 'Requiem At Dusk' by Rukkus (ID 404594)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Indivine",
@@ -747,7 +874,9 @@
                 uploadVersion: "2.2074",
                 difficulty: "Extreme Demon",
                 rating: "Epic",
-                song: "Detious - Divinity by DeadRewind (ID 634513)"
+                song: "Detious - Divinity by DeadRewind (ID 634513)",
+                minPercent: 50,
+                records: []
             },
             {
                 name: "Axiom Asterism",
@@ -764,7 +893,47 @@
                 uploadVersion: "2.274",
                 difficulty: "Extreme Demon",
                 rating: "Epic",
-                song: "Cubenssi - Abyss Walk (SUPERMEs Remix) (ID 1077608)"
+                song: "Cubenssi - Abyss Walk (SUPERMEs Remix) (ID 1077608)",
+                minPercent: 50,
+                records: []
+            },
+            {
+                name: "Rigel",
+                creator: "Dan2D",
+                uploader: "Dan2D",
+                verifier: "Inverse Games",
+                thumb: "https://img.youtube.com/vi/liJFeLHcW_Q/hqdefault.jpg",
+                videoUrl: "https://www.youtube.com/embed/liJFeLHcW_Q",
+                desc: "My first solo extremo demo. I verified this map in 2,594 attempts (22k old attempts on a buffed version) (update verified by Inverse)",
+                id: "93155813",
+                password: "Free Copy",
+                length: "1m 12s",
+                objectCount: "119317",
+                uploadVersion: "2.113",
+                difficulty: "Extreme Demon",
+                rating: "Featured",
+                song: "Creo - Evolution by CreoMusic (ID 1181403)"
+                minPercent: 50,
+                records: []
+            },
+            {
+                name: "Cosmic Cyclone",
+                creator: "APTeamOfficial, Cyclic, Zhander, Sunix, Riot, Avati, Realvet, AppleCr, Nickalpogoab, Heso, FiryTheGoat, Meox, Culuc, Lambda, Zipixbox, Zuku, KrazyGFX, Uriun, Reunomi, Shant, Tribar, Requiem, GD Endy, Zimnior12",
+                uploader: "APTeamOfficial",
+                verifier: "DoSh7t",
+                thumb: "https://img.youtube.com/vi/0I9xCfTOpXg/hqdefault.jpg",
+                videoUrl: "https://www.youtube.com/embed/0I9xCfTOpXg",
+                desc: "Sequel to the legendary Sonic Wave by Cyclic. Verified by DoSh7t. Made by APTeam. (v1.3)",
+                id: "76159410",
+                password: "Free Copy",
+                length: "1m 57s",
+                objectCount: "212000",
+                uploadVersion: "2.113",
+                difficulty: "Extreme Demon",
+                rating: "Featured",
+                song: "Hydra by F-777 (ID 725417)"
+                minPercent: 50,
+                records: []
             }
         ];
 
@@ -807,13 +976,46 @@
             document.getElementById('mRating').innerText = level.rating;
             document.getElementById('mSong').innerText = level.song;
 
+            // 기록 요약 정보 업데이트
+            const totalRecords = level.records ? level.records.length : 0;
+            const completeRecords = level.records ? level.records.filter(r => r.percent === '100%').length : 0;
+            const minPercent = level.minPercent || 50;
+
+            const summaryContainer = document.getElementById('recordsSummary');
+            summaryContainer.innerHTML = `
+                <p><strong>${totalRecords}개</strong>의 기록이 등재되어 있으며, 그 중 <strong>${completeRecords}개</strong>의 기록이 100% 입니다.<br>
+                <u>${minPercent}%</u> 이상의 기록이 등재 가능합니다.</p>
+                <div class="notice">
+                    * 표시: FPS Bypass 사용 | CBF 표시: Click Between Frames 모드 사용
+                </div>
+            `;
+
+            // 테이블 기록 동적 생성
+            const tableBody = document.getElementById('recordsTableBody');
+            tableBody.innerHTML = '';
+
+            if (level.records && level.records.length > 0) {
+                level.records.forEach(rec => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${rec.user}</td>
+                        <td>${rec.percent}</td>
+                        <td>${rec.version}</td>
+                        <td>${rec.deviceFps}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } else {
+                tableBody.innerHTML = `<tr><td colspan="4" class="no-records">등재된 기록이 없습니다.</td></tr>`;
+            }
+
             document.getElementById('modalOverlay').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
             document.getElementById('modalOverlay').classList.remove('active');
-            document.getElementById('mVideo').src = ""; /* 모달을 닫을 때 유튜브 영상 중지 */
+            document.getElementById('mVideo').src = "";
             document.body.style.overflow = '';
         }
 
