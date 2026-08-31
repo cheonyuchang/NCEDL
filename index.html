@@ -464,6 +464,16 @@
         .records-table tr:hover td {
             background-color: var(--card-hover);
         }
+        .record-link {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .record-link:hover {
+            color: #7dd3fc;
+            text-decoration: underline;
+        }
 
         .no-records {
             text-align: center;
@@ -1121,8 +1131,7 @@
 
             data.forEach((item, index) => {
                 const rank = index + 1;
-                const cardHtml = `
-                    <div class="level-card" onclick="openModal(${levels.indexOf(item)})">
+                const cardHtml = `         <div class="level-card" onclick="openModal(${levels.indexOf(item)})">
                         <div class="rank-number">
                             #${rank}
                             <span>#${rank}</span>
@@ -1175,8 +1184,11 @@
             if (level.records && level.records.length > 0) {
                 level.records.forEach(rec => {
                     const tr = document.createElement('tr');
+                    const userDisplay = rec.videoUrl 
+                        ? `<a href="${rec.videoUrl}" target="_blank" class="record-link">${rec.user}</a>` 
+                        : rec.user;
                     tr.innerHTML = `
-                        <td>${rec.user}</td>
+                        <td>${userDisplay}</td>
                         <td>${rec.percent}</td>
                         <td>${rec.version}</td>
                         <td>${rec.deviceFps}</td>
