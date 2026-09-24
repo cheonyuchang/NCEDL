@@ -327,13 +327,17 @@
             position: absolute;
             top: 15px;
             right: 20px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            line-height: 1;
             color: var(--text-sub);
             cursor: pointer;
             border: none;
             background: none;
-            box-sizing: border-box;
-            overflow: hidden;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--text-main);
         }
 
         .modal-title {
@@ -464,6 +468,7 @@
         .records-table tr:hover td {
             background-color: var(--card-hover);
         }
+
         .record-link {
             color: #38bdf8;
             text-decoration: none;
@@ -491,6 +496,7 @@
             border-top: 1px solid var(--border-color);
             line-height: 1.5;
         }
+
         @media (max-width: 600px) {
             .detail-grid {
                 grid-template-columns: 1fr;
@@ -500,6 +506,7 @@
                 grid-column: span 1;
             }
         }
+
         .github-btn {
             display: inline-flex;
             align-items: center;
@@ -608,8 +615,7 @@
             </div>
 
             <div class="records-section">
-                <div class="records-summary" id="recordsSummary">
-                    </div>
+                <div class="records-summary" id="recordsSummary"></div>
 
                 <div class="table-container">
                     <table class="records-table">
@@ -621,8 +627,7 @@
                                 <th>사용 기기 및 FPS</th>
                             </tr>
                         </thead>
-                        <tbody id="recordsTableBody">
-                            </tbody>
+                        <tbody id="recordsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -641,7 +646,6 @@
             window.scrollTo(0, 0);
         }
 
-        // levels 데이터 배열 내부에 records (유저 기록 목록) 항목 추가
         const levels = [
             {
                 name: "Antartic Lights",
@@ -1290,8 +1294,8 @@
                 song: "Encroaching Dark by TOMBOYY (ID 1022836)",
                 minPercent: 50,
                 records: []
-             },
-             {
+            },
+            {
                 name: "I Cry",
                 creator: "GrenadeofTacos",
                 uploader: "GrenadeofTacos",
@@ -1309,8 +1313,8 @@
                 song: "I Cry (NIGHTKilla Remix) by Flo Rida (NONG)",
                 minPercent: 50,
                 records: []
-             },
-             {
+            },
+            {
                 name: "Auditory Breaker",
                 creator: "LazerBlitz, Manix648, Cyclic",
                 uploader: "LazerBlitz",
@@ -1328,8 +1332,8 @@
                 song: "F-777 - Sonic Blaster by F-777 (ID 574484)",
                 minPercent: 50,
                 records: []
-             },
-             {
+            },
+            {
                 name: "Hyper Paradox",
                 creator: "ItsHybrid, El3ctr0, Avati, ViralDl, Realvet, SyQual, Connected, Temp",
                 uploader: "ItsHybrid",
@@ -1347,8 +1351,8 @@
                 song: "~NK~ 'TruthOrDare' featJrounds by Rukkus (ID 469490)",
                 minPercent: 50,
                 records: []
-             },
-             {
+            },
+            {
                 name: "Mujigae",
                 creator: "YGYoshI",
                 uploader: "YGYoshI",
@@ -1366,8 +1370,8 @@
                 song: "SmK - Climax by SKILLZmakeKILLZ (ID 495840)",
                 minPercent: 50,
                 records: []
-             },
-             {
+            },
+            {
                 name: "Abandoned Planet",
                 creator: "Metalface221",
                 uploader: "Metalface221",
@@ -1385,8 +1389,8 @@
                 song: "~NK~ 'Planet Ten' (wip) by Rukkus (ID 393342)",
                 minPercent: 50,
                 records: []
-             },
-             {
+            },
+            {
                 name: "Hateful Reflection",
                 creator: "GD Iris, Skrypto, Yoonsrdynamix",
                 uploader: "GD Iris",
@@ -1404,19 +1408,21 @@
                 song: "Cry by Xtrullor (ID 584324)",
                 minPercent: 50,
                 records: []
-             }
-         ];
+            }
+        ];
 
         function renderList(data) {
             const container = document.getElementById('listGroup');
-            container.innerHTML = ;
+            container.innerHTML = '';
 
-            data.forEach((item, index) => {
-                const rank = index + 1;
-                const cardHtml = `         <div class="level-card" onclick="openModal(${levels.indexOf(item)})">
+            data.forEach((item) => {
+                // 원본 배열에서의 실제 순위를 표기하도록 수정
+                const originalRank = levels.indexOf(item) + 1;
+                const cardHtml = `
+                    <div class="level-card" onclick="openModal(${originalRank - 1})">
                         <div class="rank-number">
-                            #${rank}
-                            <span>#${rank}</span>
+                            #${originalRank}
+                            <span>#${originalRank}</span>
                         </div>
                         <img class="thumb" src="${item.thumb}" alt="${item.name}">
                         <div class="level-info">
@@ -1431,6 +1437,8 @@
 
         function openModal(index) {
             const level = levels[index];
+            if (!level) return;
+
             document.getElementById('mTitle').innerText = level.name;
             document.getElementById('mVideo').src = level.videoUrl;
             document.getElementById('mDesc').innerText = level.desc;
@@ -1495,6 +1503,13 @@
 
         document.getElementById('modalOverlay').addEventListener('click', (e) => {
             if (e.target === document.getElementById('modalOverlay')) {
+                closeModal();
+            }
+        });
+
+        // ESC 키 입력 시 모달 닫기
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
                 closeModal();
             }
         });
